@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, SafeAreaView } from "react-native";
+import { View, Text, KeyboardAvoidingView, SafeAreaView, Alert, StatusBar } from "react-native";
 import React, { useState } from "react";
 import tw from "twrnc";
 import { Input } from "@rneui/themed";
@@ -8,6 +8,7 @@ import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 import { auth } from "../firebase";
 import { useRecoilValue } from "recoil";
 import { globalPhoneNumber, verificationIDAtom } from "../atoms/verificationAtoms";
+import { CommonActions } from "@react-navigation/native";
 
 const VerifyCode = ({navigation}) => {
 
@@ -15,23 +16,35 @@ const VerifyCode = ({navigation}) => {
     const verificationId = useRecoilValue(verificationIDAtom)
     const phoneNumber = useRecoilValue(globalPhoneNumber)
     const [verificationCode, setVerificationCode] = useState(null);
+	const [loading, setLoading] = useState(false);
 
     const verifyUser = async () => {
+		setLoading(true)
         try {
             const credential = PhoneAuthProvider.credential(
               verificationId,
               verificationCode
             );
             await signInWithCredential(auth, credential);
-            console.log(credential)
-            navigation.replace("ProfileUpdate")
+			setLoading(false)
+        navigation.dispatch(
+			CommonActions.reset({
+			  index: 1,
+			  routes: [
+				{ name: 'ProfileUpdate' },
+			  ],
+			})
+		  );
           } catch (err) {
-            console.log(err.message)
+			  setLoading(false)
+            alert(err.code)
           }
+
     }
 
 	return (
 		<KeyboardAvoidingView behavior="padding" style={tw`flex-1 p-8`}>
+			<StatusBar barStyle={"dark-content"}/>
 			<SafeAreaView style={tw`items-center`}>
 				<Text style={tw`font-700 text-xl my-6 text-[#009959]`}>
 					Verify {phoneNumber}
@@ -60,6 +73,7 @@ const VerifyCode = ({navigation}) => {
 					titleStyle={tw`text-[1rem]`}
                     disabled={!verificationId}
                     onPress={verifyUser}
+					loading={loading}
 				/>
 
                 {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
