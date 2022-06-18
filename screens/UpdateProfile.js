@@ -1,14 +1,81 @@
-import { View, Text, KeyboardAvoidingView, SafeAreaView, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, Text, KeyboardAvoidingView, SafeAreaView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Alert } from "react-native";
+import React, { useState } from "react";
 import tw from "twrnc";
 import { Button } from "@rneui/base";
 import { Avatar, Input } from "@rneui/themed";
 import { FontAwesome } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import { auth, storage } from "../firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { updateProfile } from "firebase/auth";
 
-const UpdateProfile = () => {
+const UpdateProfile = ({navigation}) => {
+
+	const [selectedFile, setSelectedFile] = useState(null)
+	const [name, setName] = useState("")
+	const [loading, setLoading] = useState(false);
+
+	const pickImage = async () => {
+		// No permissions request is necessary for launching the image library
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		});
 
 
-	
+		if (!result.cancelled) {
+			setSelectedFile(result.uri)
+		}
+	}
+
+
+	const storeImage = async () => {
+
+		setLoading(true)
+
+		const imageRef = ref(storage, `profile/${auth.currentUser.phoneNumber}/image`)
+
+       if(selectedFile){
+
+		let img = await fetch(selectedFile)
+		let blob = await img.blob()
+
+		await uploadBytes(imageRef, blob)
+           .then(async () => {
+               const downloadURL = await getDownloadURL(imageRef)
+			   await updateProfile(auth.currentUser, {
+				displayName: name,
+				photoURL:
+			   downloadURL ||
+				   "https://ksets.netlify.app/NATIVE/avatar.png",
+				})
+
+			navigation.replace("Home")
+           })
+		   .catch((e) => {
+			alert(e);
+		   })
+       }
+	   
+	 if(!selectedFile){
+		try{
+			await updateProfile(auth.currentUser, {
+				displayName: name,
+				photoURL: "https://ksets.netlify.app/NATIVE/avatar.png",
+				})
+				navigation.replace("Home")
+
+		}catch(e) {
+		alert(e.code)
+	   }
+
+	   
+	}
+}
+
+
 
 	return (
 		<KeyboardAvoidingView behavior="padding" style={tw`flex-1 p-8`}>
@@ -22,28 +89,31 @@ const UpdateProfile = () => {
 				</Text>
 
                 <View style={tw`relative`}>
-                    <TouchableOpacity activeOpacity={0.5} style={tw`absolute z-50 bg-gray-200 p-3 rounded-full bottom-3 right-0`}>
+                    <TouchableOpacity onPress={pickImage} activeOpacity={0.5} style={tw`absolute z-50 bg-gray-200 p-3 rounded-full bottom-3 right-0`}>
 					<FontAwesome name="camera" size={25} color="gray" />
 					</TouchableOpacity>
                     <Avatar
                         rounded
                         size={100}
-                        source={require("../assets/avatar.png")}
+                        source={ selectedFile ? {uri: selectedFile} :  require("../assets/avatar.png") }
                         containerStyle={tw`shadow-lg my-8`}
+						
                     />
                 </View>
 
                 <Input 
                         leftIcon={<FontAwesome name="user" size={26} color="gray" style={tw`mr-2`} />}
                         placeholder="Enter your name"
+						onChangeText={(name) => setName(name)}
                 />
 
 				<Button
 					title="Finish"
 					buttonStyle={tw`rounded-100 py-3 w-[12rem] mt-2 bg-[#6EBD6A]`}
 					titleStyle={tw`text-[1rem]`}
-					// disabled={!verificationId}
-					// onPress={verifyUser}
+					 disabled={!name}
+					onPress={storeImage}
+					loading={loading}
 				/>
 			</SafeAreaView>
                 </TouchableWithoutFeedback>

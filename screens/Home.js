@@ -1,12 +1,186 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import {
+	View,
+	Text,
+	SafeAreaView,
+	StatusBar,
+	TouchableOpacity,
+	ImageBackground,
+  Image,
+} from "react-native";
+import React, { useEffect } from "react";
+import { auth } from "../firebase";
+import tw from "twrnc";
+import { LinearGradient } from "expo-linear-gradient";
+import { Avatar, Input, ListItem } from "@rneui/themed";
+import { FontAwesome5, Entypo, Feather } from "@expo/vector-icons";
+import { Button } from "@rneui/base";
+import { ScrollView } from "react-native";
+import Products from "../components/Products";
+import Tabs from "../components/Tabs";
+import { signOut } from "firebase/auth";
 
-const Home = ({navigation}) => {
-  return (
-    <View>
-      <Text>Home</Text>
-    </View>
-  )
-}
+const Home = ({ navigation }) => {
+	useEffect(() => {
+		console.log(auth.currentUser);
+	}, []);
 
-export default Home
+
+  const logOut = () => {
+    signOut(auth).then(() => {
+      navigation.replace("Start")
+      // Sign-out successful.
+    }).catch((error) => {
+      alert(error.code)
+      // An error happened.
+    });
+  }
+
+
+	const SlideComponent = () => {
+		return (
+			<View style={tw`w-[20rem] mx-2 h-[10rem] rounded-2xl overflow-hidden`}>
+				<ImageBackground
+					style={tw`relative w-[100%] h-[100%]`}
+					source={require("../assets/veges.jpg")}
+					resizeMode="cover"
+				>
+					<LinearGradient
+						colors={["#009959", "#6EBD6A"]}
+						style={tw`w-[50%] absolute right-0 h-[100%] bg-[#009959] items-center justify-center`}
+						start={{ x: 0, y: 0 }}
+						end={{ x: 0, y: 1 }}
+					>
+						<Text style={tw`text-gray-300 text-sm`}>Ramadan Offers</Text>
+						<Text style={tw`text-gray-100 font-500 text-[2rem] mt-2`}>
+							Get 25%
+						</Text>
+						<Button
+							title={"Grab Offer"}
+							buttonStyle={tw`rounded-100 bg-gray-50 w-[8rem] h-[2.3rem] mt-2`}
+							titleStyle={tw`text-[#009959] text-[0.9rem] font-600`}
+							icon={
+								<Entypo name="chevron-small-right" size={24} color="#009959" />
+							}
+							iconRight
+						/>
+					</LinearGradient>
+				</ImageBackground>
+			</View>
+		);
+	};
+
+
+  const Category = ({image, type}) => {
+    return (
+      <View style={tw`items-center`}>
+        <TouchableOpacity activeOpacity={0.5} style={tw`items-center mb-2 justify-center rounded-100 h-18 w-18 bg-gray-200`}>
+            <Image 
+              source={image}
+              style={tw`h-10 w-10`}
+            />
+        </TouchableOpacity>
+        <Text style={tw`font-600 text-[0.8rem]`}>{type}</Text>
+      </View>
+    )
+  }
+
+	return (
+		<LinearGradient 
+    colors={["#EBEBEB", "#fff"]}
+    start={{ x: 0, y: 0 }}
+    end={{ x: 0, y: 1 }}
+    style={tw`flex-1`}>
+			<StatusBar barStyle={"dark-content"} />
+			<SafeAreaView style={tw`flex-1`}>
+				<ScrollView>
+					<View style={tw`flex-row items-center mt-2 px-6`}>
+						<View style={tw`flex-row items-center w-[60%]`}>
+							<Avatar
+              onPress={logOut}
+								rounded
+								source={{
+									uri: auth.currentUser.photoURL || "https://ksets.netlify.app/NATIVE/avatar.png",
+								}}
+							/>
+
+							<View style={tw`ml-4`}>
+								<Text style={tw`text-gray-500 font-500`}>Good evening</Text>
+								<Text style={tw`font-bold text-lg`}>{auth.currentUser.displayName}</Text>
+							</View>
+						</View>
+						<TouchableOpacity
+							activeOpacity={0.5}
+							style={tw`bg-white w-[40%] h-12 rounded-100 flex-row items-center justify-between px-3`}
+						>
+							<FontAwesome5 name="map-marker-alt" size={24} color="#009959" />
+							<Text style={tw`font-600 text-gray-700`}>My Flat</Text>
+							<Entypo name="chevron-small-down" size={24} color="gray" />
+						</TouchableOpacity>
+					</View>
+
+					<Input
+						containerStyle={tw`mt-6 px-6`}
+						inputContainerStyle={tw`border-b-0 bg-white rounded-100 h-[3.5rem] px-3 items-center`}
+						leftIcon={<Feather name="search" size={24} color="gray" />}
+						placeholder="Search category"
+					/>
+
+						<ScrollView 
+            style={tw`mb-2`}
+            horizontal showsHorizontalScrollIndicator={false}>
+							<SlideComponent />
+							<SlideComponent />
+							<SlideComponent />
+							<SlideComponent />
+						</ScrollView>
+
+            <View style={tw`mt-4 h-40 px-6`}>
+              <View style={tw`flex-row items-center justify-between`}>
+                <Text style={tw`font-700 text-lg`}>Categories 😊</Text>
+                <Text style={tw`text-[#009959] text-[0.9rem]`}>See all</Text>
+              </View>
+
+              <View style={tw`flex-row items-center justify-between my-4`}>
+                  <Category 
+                    image={require("../assets/apple.png")}
+                    type="Fruits"
+                  />
+                  <Category 
+                    image={require("../assets/brocolli.png")}
+                    type="vegetables"
+                  />
+                  <Category 
+                    image={require("../assets/cheese.png")}
+                    type="Diary"
+                  />
+                  <Category 
+                    image={require("../assets/meat.png")}
+                    type="Meat"
+                  />
+              </View>
+            </View>
+
+            <View style={tw`px-6`}>
+              <View style={tw`flex-row items-center justify-between`}>
+                <Text style={tw`font-700 text-lg`}>Best Selling 🔥</Text>
+                <Text style={tw`text-[#009959] text-[0.9rem]`}>See all</Text>
+              </View>
+
+                <View style={tw`mt-4 flex-row flex-wrap`}>
+                  <Products />
+                  <Products />
+                  <Products />
+                  <Products />
+
+                </View>
+            </View>
+
+				</ScrollView>
+
+        <Tabs />
+			</SafeAreaView>
+		</LinearGradient>
+	);
+};
+
+export default Home;

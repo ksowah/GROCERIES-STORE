@@ -19,14 +19,16 @@ export default function App() {
     <RecoilRoot>
     <NavigationContainer>
 			<Stack.Navigator>
-				<Stack.Screen options={{headerShown: false}} name="ProfileUpdate" component={UpdateProfile} />
 				<Stack.Screen options={{headerShown: false}} name="Hello" component={Hello} />
 				<Stack.Screen options={{headerShown: false}} name="Start" component={GetStarted} />
 				<Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUp} />
 				<Stack.Screen options={{headerShown: false}} name="Verify" component={VerifyCode} />
+				<Stack.Screen options={{headerShown: false}} name="ProfileUpdate" component={UpdateProfile} />
 				<Stack.Screen options={{headerShown: false}} name="Home" component={Home} />
 			</Stack.Navigator>
 		</NavigationContainer>
     </RecoilRoot>
   );
 }
+
+// +1 650-555-3434 || 654321

@@ -7,19 +7,15 @@ import {
 	Alert,
 	Platform,
 	Keyboard,
-	ScrollView,
 	TouchableWithoutFeedback,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import tw from "twrnc";
-import { Feather, Entypo, FontAwesome } from "@expo/vector-icons";
-import { Avatar, Icon, Input, ListItem } from "@rneui/themed";
+import { Feather } from "@expo/vector-icons";
+import { Avatar, Input } from "@rneui/themed";
 import { Button } from "@rneui/base";
 import {
-	RecaptchaVerifier,
-	signInWithPhoneNumber,
 	PhoneAuthProvider,
-	signInWithCredential,
 } from "firebase/auth";
 import app, { auth } from "../firebase";
 import {
@@ -28,9 +24,8 @@ import {
 } from "expo-firebase-recaptcha";
 import { useRecoilState } from "recoil";
 import { globalPhoneNumber, verificationIDAtom } from "../atoms/verificationAtoms";
-import axios from "axios";
-import { countries } from "../countriesData";
-import { TextInput } from "react-native";
+import { CommonActions } from '@react-navigation/native';
+
 
 const SignUp = ({ navigation }) => {
 	const [phone, setPhone] = useState("");
@@ -39,7 +34,7 @@ const SignUp = ({ navigation }) => {
 	const [verificationId, setVerificationId] =
 		useRecoilState(verificationIDAtom);
 	const [message, showMessage] = useState("");
-	const [expanded, setExpanded] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const recaptchaVerifier = useRef(null);
 
 	if (!app || Platform.OS === "web") {
@@ -49,23 +44,36 @@ const SignUp = ({ navigation }) => {
 	}
 
 	const SendCode = async () => {
-		if(phone && phonePrefix){
-			setPhoneNumber(phonePrefix.concat(phone))
-			console.log(phoneNumber);
+		setLoading(true)
 
+		if(phone && phonePrefix){
+			// console.log(phoneNumber);
+			
 			Keyboard.dismiss();
 			try {
+				setPhoneNumber(phonePrefix.concat(phone))
 				const phoneProvider = new PhoneAuthProvider(auth);
 				const verificationId = await phoneProvider.verifyPhoneNumber(
 					phoneNumber,
 					recaptchaVerifier.current
 				);
 				setVerificationId(verificationId);
-				navigation.replace("Verify");
+
+				navigation.dispatch(
+					CommonActions.reset({
+					  index: 1,
+					  routes: [
+						{ name: 'Verify' },
+					  ],
+					})
+				  );
+
 			} catch (err) {
-				Alert.alert(err.code)
+				alert(err.message)
 			}
 		}
+		
+		setLoading(false)
 	};
 
 
@@ -137,6 +145,7 @@ const SignUp = ({ navigation }) => {
 						testID="signUp"
 						disabled={!phone}
 						onPress={SendCode}
+						loading={loading}
 					/>
 
 					<Text style={tw`text-center text-[1rem] text-gray-500 mt-4`}>
