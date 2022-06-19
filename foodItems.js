@@ -1,0 +1,123 @@
+export const foodItems = [
+    {
+        category: "Fruits",
+        name: "Red apple",
+        price: "3",
+        image: require("./assets/fruit-1.png"),
+    },
+    {
+        category: "Fruits",
+        name: "Passion fruit",
+        price: "2",
+        image: require("./assets/fruit-2.png"),
+    },
+    {
+        category: "Fruits",
+        name: "Yello lemon",
+        price: "1",
+        image: require("./assets/fruit-3.png"),
+    },
+    {
+        category: "Fruits",
+        name: "Green lemon",
+        price: "2",
+        image: require("./assets/fruit-4.png"),
+    },
+    {
+        category: "Fruits",
+        name: "Avocado",
+        price: "5",
+        image: require("./assets/fruit-5.png"),
+    },
+    {
+        category: "Fruits",
+        name: "Pineapple",
+        price: "3",
+        image: require("./assets/fruit-6.png"),
+    },
+    {
+        category: "Meat",
+        name: "Lamb Meat",
+        price: "32",
+        image: require("./assets/meat-1.png"),
+    },
+    {
+        category: "Vegetables",
+        name: "Bell Pepper Red",
+        price: "6",
+        image: require("./assets/tomatoes.png"),
+    },
+    {
+        category: "Meat",
+        name: "Raw beef steak",
+        price: "28",
+        image: require("./assets/meat-3.png"),
+    },
+    {
+        category: "Meat",
+        name: "Chicken meat",
+        price: "42",
+        image: require("./assets/meat-5.png"),
+    },
+    {
+        category: "Vegetables",
+        name: "Arabic Ginger",
+        price: "4",
+        image: require("./assets/ginger.png"),
+    },
+    {
+        category: "Meat",
+        name: "Beef flank",
+        price: "35",
+        image: require("./assets/meat-8.png"),
+    },
+    {
+        category: "Meat",
+        name: "Bacon",
+        price: "50",
+        image: require("./assets/meat-6.png"),
+    },
+    {
+        category: "Vegetables",
+        name: "Fresh Lettuce",
+        price: "2",
+        image: require("./assets/carbage.png"),
+    },
+    {
+        category: "Meat",
+        name: "Raw beef",
+        price: "40",
+        image: require("./assets/meat-7.png"),
+    },
+    {
+        category: "Vegetables",
+        name: "Butternut Squash",
+        price: "8",
+        image: require("./assets/squash.png"),
+    },
+    {
+        category: "Meat",
+        name: "Fresh beef",
+        price: "30",
+        image: require("./assets/meat-2.png"),
+    },
+    {
+        category: "Vegetables",
+        name: "Organic Carrot",
+        price: "4",
+        image: require("./assets/carrot.png"),
+    },
+    {
+        category: "Meat",
+        name: "Fresh meat",
+        price: "41",
+        image: require("./assets/meat-4.png"),
+    },
+    {
+        category: "Vegetables",
+        name: "Fresh Brocolli",
+        price: "2",
+        image: require("./assets/brocolli-1.png"),
+    },
+    
+]
