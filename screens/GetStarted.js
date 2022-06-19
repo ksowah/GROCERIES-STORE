@@ -1,4 +1,4 @@
-import { View, Image, Text, SafeAreaView, ImageBackground, StatusBar } from "react-native";
+import { View, Image, Text, SafeAreaView, ImageBackground, StatusBar, Platform } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import { Button } from "@rneui/base";
@@ -25,7 +25,7 @@ const GetStarted = ({ navigation }) => {
 					style={tw`absolute right-0 bottom-20`}
 				/>
 
-				<View style={tw`m-10 my-20 flex-1 items-center`}>
+				<View style={tw`m-10 ${Platform.OS === "android" ? "m-7 mt-10" : "my-20"} flex-1 items-center`}>
 					<View
 						style={tw`bg-white shadow-lg items-center justify-center rounded-100 w-[5rem] h-[5rem]`}
 					>
@@ -35,10 +35,10 @@ const GetStarted = ({ navigation }) => {
 						/>
 					</View>
 
-                    <Text style={tw`text-[1.5rem] text-center font-bold shadow-lg my-6`}>
+                    <Text style={tw`text-[1.5rem] text-center font-bold shadow-lg ${Platform.OS === "android" ? "my-3" : "my-6"}`}>
                         Get your groceries delivered to your home
                     </Text>
-                    <Text style={tw`text-center text-[1rem] text-gray-500 shadow-lg my-6`}>
+                    <Text style={tw`text-center text-[1rem] text-gray-500 shadow-lg ${Platform.OS === "android" ? "my-3" : "my-6"}`}>
                         The best delivery app in town for delivering your daily fresh groceries
                     </Text>
 
@@ -55,7 +55,7 @@ const GetStarted = ({ navigation }) => {
 			<SafeAreaView style={tw`flex-1`}>
 				<Image
 					source={require("../assets/fruits.png")}
-					style={tw`absolute bottom-0`}
+					style={tw`absolute bottom-0 ${Platform.OS === "android" && "h-[16rem]"}`}
 				/>
 			</SafeAreaView>
 		</View>
