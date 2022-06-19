@@ -6,6 +6,7 @@ import {
 	TouchableOpacity,
 	ImageBackground,
   Image,
+  Platform,
 } from "react-native";
 import React, { useEffect } from "react";
 import { auth } from "../firebase";
@@ -18,12 +19,9 @@ import { ScrollView } from "react-native";
 import Products from "../components/Products";
 import Tabs from "../components/Tabs";
 import { signOut } from "firebase/auth";
+import { foodItems } from "../foodItems";
 
 const Home = ({ navigation }) => {
-	useEffect(() => {
-		console.log(auth.currentUser);
-	}, []);
-
 
   const logOut = () => {
     signOut(auth).then(() => {
@@ -71,9 +69,11 @@ const Home = ({ navigation }) => {
 
 
   const Category = ({image, type}) => {
+
     return (
       <View style={tw`items-center`}>
-        <TouchableOpacity activeOpacity={0.5} style={tw`items-center mb-2 justify-center rounded-100 h-18 w-18 bg-gray-200`}>
+        <TouchableOpacity onPress={() => navigation.navigate("Category", {category: type,})} 
+		activeOpacity={0.5} style={tw`items-center mb-2 justify-center rounded-100 h-18 w-18 bg-gray-200`}>
             <Image 
               source={image}
               style={tw`h-10 w-10`}
@@ -93,24 +93,24 @@ const Home = ({ navigation }) => {
 			<StatusBar barStyle={"dark-content"} />
 			<SafeAreaView style={tw`flex-1`}>
 				<ScrollView>
-					<View style={tw`flex-row items-center mt-2 px-6`}>
+					<View style={tw`flex-row items-center mt-2 ${Platform.OS === "ios" ? "px-6" : "px-3 mt-6"}`}>
 						<View style={tw`flex-row items-center w-[60%]`}>
 							<Avatar
-              onPress={logOut}
+             					onPress={logOut}
 								rounded
 								source={{
-									uri: auth.currentUser.photoURL || "https://ksets.netlify.app/NATIVE/avatar.png",
+									uri:"https://ksets.netlify.app/NATIVE/avatar.png",
 								}}
 							/>
 
-							<View style={tw`ml-4`}>
+							<View style={tw`${Platform.OS === "android" ? "ml-2" : "ml-4"} w-[60%]`}>
 								<Text style={tw`text-gray-500 font-500`}>Good evening</Text>
-								<Text style={tw`font-bold text-lg`}>{auth.currentUser.displayName}</Text>
+								<Text style={tw`font-bold text-lg`} ellipsizeMode="tail" numberOfLines={1} >Kelvin Nii Odoi Sowah</Text>
 							</View>
 						</View>
 						<TouchableOpacity
 							activeOpacity={0.5}
-							style={tw`bg-white w-[40%] h-12 rounded-100 flex-row items-center justify-between px-3`}
+							style={tw`bg-white w-[40%] ${Platform.OS === "android" ? "h-10" : "h-12"} px-2 rounded-100 flex-row items-center justify-around`}
 						>
 							<FontAwesome5 name="map-marker-alt" size={24} color="#009959" />
 							<Text style={tw`font-600 text-gray-700`}>My Flat</Text>
@@ -119,8 +119,8 @@ const Home = ({ navigation }) => {
 					</View>
 
 					<Input
-						containerStyle={tw`mt-6 px-6`}
-						inputContainerStyle={tw`border-b-0 bg-white rounded-100 h-[3.5rem] px-3 items-center`}
+						containerStyle={tw`mt-6 ${Platform.OS === "ios" ? "px-6" : "px-3"}`}
+						inputContainerStyle={tw`border-b-0 bg-white rounded-100 ${Platform.OS === "ios" && "h-[3.5rem]"} px-3 items-center`}
 						leftIcon={<Feather name="search" size={24} color="gray" />}
 						placeholder="Search category"
 					/>
@@ -147,7 +147,7 @@ const Home = ({ navigation }) => {
                   />
                   <Category 
                     image={require("../assets/brocolli.png")}
-                    type="vegetables"
+                    type="Vegetables"
                   />
                   <Category 
                     image={require("../assets/cheese.png")}
@@ -166,11 +166,16 @@ const Home = ({ navigation }) => {
                 <Text style={tw`text-[#009959] text-[0.9rem]`}>See all</Text>
               </View>
 
-                <View style={tw`mt-4 flex-row flex-wrap`}>
-                  <Products />
-                  <Products />
-                  <Products />
-                  <Products />
+                <View style={tw`mt-4 items-center justify-center flex-row flex-wrap`}>
+                  
+				{foodItems.map((foodItem, idx) => (
+					<Products key={idx}
+					image={foodItem.image}
+					price={foodItem.price}
+					name={foodItem.name}
+					/>
+
+				))}
 
                 </View>
             </View>
