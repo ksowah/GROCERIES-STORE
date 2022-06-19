@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, SafeAreaView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Alert } from "react-native";
+import { View, Text, KeyboardAvoidingView, SafeAreaView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Alert } from "react-native";
 import React, { useState } from "react";
 import tw from "twrnc";
 import { Button } from "@rneui/base";
@@ -34,7 +34,8 @@ const UpdateProfile = ({navigation}) => {
 	const storeImage = async () => {
 
 		setLoading(true)
-
+		Platform.OS === "android" && Keyboard.dismiss()
+		
 		const imageRef = ref(storage, `profile/${auth.currentUser.phoneNumber}/image`)
 
        if(selectedFile){
@@ -78,10 +79,10 @@ const UpdateProfile = ({navigation}) => {
 
 
 	return (
-		<KeyboardAvoidingView behavior="padding" style={tw`flex-1 p-8`}>
+		<KeyboardAvoidingView behavior="padding" style={tw`flex-1 ${Platform.OS === "android" ? "p-4 px-8" : "p-8"} `}>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 			<SafeAreaView style={tw`items-center`}>
-				<Text style={tw`font-700 text-2xl my-6 text-[#009959]`}>
+				<Text style={tw`font-700 text-2xl ${Platform.OS === "android" ? "my-2" : "my-6"} text-[#009959]`}>
 					Profile Info
 				</Text>
 				<Text style={tw`text-center text-[1rem] text-gray-500`}>
@@ -96,7 +97,7 @@ const UpdateProfile = ({navigation}) => {
                         rounded
                         size={100}
                         source={ selectedFile ? {uri: selectedFile} :  require("../assets/avatar.png") }
-                        containerStyle={tw`shadow-lg my-8`}
+                        containerStyle={tw`shadow-lg ${Platform.OS === "android" ? "my-4" : "my-7"}`}
 						
                     />
                 </View>
@@ -105,6 +106,7 @@ const UpdateProfile = ({navigation}) => {
                         leftIcon={<FontAwesome name="user" size={26} color="gray" style={tw`mr-2`} />}
                         placeholder="Enter your name"
 						onChangeText={(name) => setName(name)}
+						onSubmitEditing={storeImage}
                 />
 
 				<Button
