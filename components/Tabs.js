@@ -62,7 +62,7 @@ const Tabs = ({method}) => {
         tabBarBadge: item.length,
         tabBarBadgeStyle: tw``,
         tabBarIcon: ({color, size}) => (
-            <View style={tw`bg-[#009959] mb-10 border-2 border-gray-100 rounded-100 w-13 h-13 items-center justify-center`}>
+            <View style={tw`bg-[#009959 border-2 border-gray-100 rounded-100 w-13 h-13 items-center justify-center`}>
                 <FontAwesome5 name="shopping-basket" size={size} style={tw`text-gray-100`}/>
             </View>
         )
