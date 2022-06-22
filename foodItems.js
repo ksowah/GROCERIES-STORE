@@ -6,6 +6,24 @@ export const foodItems = [
         image: require("./assets/fruit-1.png"),
     },
     {
+        category: "Diary",
+        name: "Milk and cheese",
+        price: "25",
+        image: require("./assets/diary-1.png"),
+    },
+    {
+        category: "Diary",
+        name: "Cheese",
+        price: "5",
+        image: require("./assets/diary-2.png"),
+    },
+    {
+        category: "Diary",
+        name: "Milk and cheese",
+        price: "15",
+        image: require("./assets/diary-3.png"),
+    },
+    {
         category: "Fruits",
         name: "Passion fruit",
         price: "2",
