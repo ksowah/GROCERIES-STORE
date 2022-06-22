@@ -21,6 +21,11 @@ const Category = ({ navigation, route }) => {
 										image={foodItem.image}
 										price={foodItem.price}
 										name={foodItem.name}
+										method={() => navigation.navigate("ProductDetails", {
+											image: foodItem.image,
+											price: foodItem.price,
+											name: foodItem.name,
+										})}
 									/>
 								)
 						)}
