@@ -9,3 +9,8 @@ export const globalPhoneNumber = atom({
     key: "globalPhoneNumber",
     default: null,
 })
+
+export const cart = atom({
+    key: "cart",
+    default: [],
+})

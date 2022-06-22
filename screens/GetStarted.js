@@ -25,7 +25,7 @@ const GetStarted = ({ navigation }) => {
 					style={tw`absolute right-0 bottom-20`}
 				/>
 
-				<View style={tw`m-10 ${Platform.OS === "android" ? "m-7 mt-10" : "my-20"} flex-1 items-center`}>
+				<View style={tw`m-10 ${Platform.OS === "android" ? "m-7 mt-10" : "my-19"} flex-1 items-center`}>
 					<View
 						style={tw`bg-white shadow-lg items-center justify-center rounded-100 w-[5rem] h-[5rem]`}
 					>

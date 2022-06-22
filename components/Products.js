@@ -1,10 +1,31 @@
 import { View, Text, Image, Platform, TouchableOpacity } from 'react-native'
 import React from 'react'
 import tw from "twrnc"
+import AddButton from './AddButton'
+import { useRecoilState } from 'recoil'
+import { cart } from '../atoms/verificationAtoms'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { auth, db } from '../firebase'
 
-const Products = ({image, name, price}) => {
+const Products = ({image, name, price, method}) => {
+
+  const addToCart = async () => {
+
+    await addDoc(collection(db, "carts", auth.currentUser.phoneNumber, "items"), {
+			timeStamp: serverTimestamp(),
+      image,
+      name,
+      price,
+		});
+ 
+  }
+
   return (
-    <View style={tw`h-50 m-1 ${Platform.OS === "android" ? "w-35" : "w-38"}  bg-gray-100 rounded-xl items-center justify-center`}>
+    <TouchableOpacity 
+      activeOpacity={0.5}
+    style={tw`h-50 m-1 ${Platform.OS === "android" ? "w-35" : "w-38"}  bg-gray-100 rounded-xl items-center justify-center`}
+      onPress={method}
+    >
       <Image 
         source={image}
         style={tw`mt-4 h-25 w-25 `}
@@ -15,11 +36,9 @@ const Products = ({image, name, price}) => {
         <Text style={tw`font-600 mb-2`} numberOfLines={1} ellipsizeMode="tail" >{name}</Text>
         <Text style={tw`font-600 text-[#FF324B] text-[1rem]`}>1kg, {price}$</Text>
 
-        <TouchableOpacity activeOpacity={0.5} style={tw`absolute bg-[#009959] w-8 h-8 right-2 -bottom-1 items-center justify-center rounded-100`}>
-            <Text style={tw`text-[1.2rem] text-gray-200`}>+</Text>
-        </TouchableOpacity>
+       <AddButton sign={"+"} product add addToCart={addToCart}  />
       </View>
-    </View>
+    </TouchableOpacity>
   )     
 }
 
