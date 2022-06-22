@@ -173,6 +173,11 @@ const Home = ({ navigation }) => {
 					image={foodItem.image}
 					price={foodItem.price}
 					name={foodItem.name}
+					method={() => navigation.navigate("ProductDetails", {
+						image: foodItem.image,
+						price: foodItem.price,
+						name: foodItem.name,
+					})}
 					/>
 
 				))}
@@ -182,7 +187,6 @@ const Home = ({ navigation }) => {
 
 				</ScrollView>
 
-        <Tabs />
 			</SafeAreaView>
 		</LinearGradient>
 	);
