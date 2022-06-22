@@ -3,7 +3,7 @@ import React from "react";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import tw from "twrnc"
 
-const Nav = ({ method, title }) => {
+const Nav = ({ method, title, hideSearch }) => {
 	return (
 		<View 
             style={tw`px-6 flex-row items-center justify-between`}
