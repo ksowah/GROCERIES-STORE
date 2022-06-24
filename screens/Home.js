@@ -5,8 +5,8 @@ import {
 	StatusBar,
 	TouchableOpacity,
 	ImageBackground,
-  Image,
-  Platform,
+	Image,
+	Platform,
 } from "react-native";
 import React, { useEffect } from "react";
 import { auth } from "../firebase";
@@ -23,15 +23,17 @@ import { foodItems } from "../foodItems";
 
 const Home = ({ navigation }) => {
 
-  const logOut = () => {
-    signOut(auth).then(() => {
-      navigation.replace("Start")
-      // Sign-out successful.
-    }).catch((error) => {
-      alert(error.code)
-      // An error happened.
-    });
-  }
+	const logOut = () => {
+		signOut(auth)
+			.then(() => {
+				navigation.replace("Start");
+				// Sign-out successful.
+			})
+			.catch((error) => {
+				alert(error.code);
+				// An error happened.
+			});
+	};
 
 
 	const SlideComponent = () => {
@@ -67,50 +69,65 @@ const Home = ({ navigation }) => {
 		);
 	};
 
-
-  const Category = ({image, type}) => {
-
-    return (
-      <View style={tw`items-center`}>
-        <TouchableOpacity onPress={() => navigation.navigate("Category", {category: type,})} 
-		activeOpacity={0.5} style={tw`items-center mb-2 justify-center rounded-100 h-18 w-18 bg-gray-200`}>
-            <Image 
-              source={image}
-              style={tw`h-10 w-10`}
-            />
-        </TouchableOpacity>
-        <Text style={tw`font-600 text-[0.8rem]`}>{type}</Text>
-      </View>
-    )
-  }
+	const Category = ({ image, type }) => {
+		return (
+			<View style={tw`items-center`}>
+				<TouchableOpacity
+					onPress={() => navigation.navigate("Category", { category: type })}
+					activeOpacity={0.5}
+					style={tw`items-center mb-2 justify-center rounded-100 h-18 w-18 bg-gray-200`}
+				>
+					<Image source={image} style={tw`h-10 w-10`} />
+				</TouchableOpacity>
+				<Text style={tw`font-600 text-[0.8rem]`}>{type}</Text>
+			</View>
+		);
+	};
 
 	return (
-		<LinearGradient 
-    colors={["#EBEBEB", "#fff"]}
-    start={{ x: 0, y: 0 }}
-    end={{ x: 0, y: 1 }}
-    style={tw`flex-1`}>
+		<LinearGradient
+			colors={["#EBEBEB", "#fff"]}
+			start={{ x: 0, y: 0 }}
+			end={{ x: 0, y: 1 }}
+			style={tw`flex-1`}
+		>
 			<StatusBar barStyle={"dark-content"} />
 			<SafeAreaView style={tw`flex-1`}>
 				<ScrollView>
-					<View style={tw`flex-row items-center mt-2 ${Platform.OS === "ios" ? "px-6" : "px-3 mt-6"}`}>
+					<View
+						style={tw`flex-row items-center mt-2 ${
+							Platform.OS === "ios" ? "px-6" : "px-3 mt-6"
+						}`}
+					>
 						<View style={tw`flex-row items-center w-[60%]`}>
 							<Avatar
-             					onPress={logOut}
+								onPress={logOut}
 								rounded
 								source={{
-									uri:"https://ksets.netlify.app/NATIVE/avatar.png",
+									uri: "https://ksets.netlify.app/NATIVE/avatar.png",
 								}}
 							/>
 
-							<View style={tw`${Platform.OS === "android" ? "ml-2" : "ml-4"} w-[60%]`}>
+							<View
+								style={tw`${
+									Platform.OS === "android" ? "ml-2" : "ml-4"
+								} w-[60%]`}
+							>
 								<Text style={tw`text-gray-500 font-500`}>Good evening</Text>
-								<Text style={tw`font-bold text-lg`} ellipsizeMode="tail" numberOfLines={1} >Kelvin Nii Odoi Sowah</Text>
+								<Text
+									style={tw`font-bold text-lg`}
+									ellipsizeMode="tail"
+									numberOfLines={1}
+								>
+									Kelvin Nii Odoi Sowah
+								</Text>
 							</View>
 						</View>
 						<TouchableOpacity
 							activeOpacity={0.5}
-							style={tw`bg-white w-[40%] ${Platform.OS === "android" ? "h-10" : "h-12"} px-2 rounded-100 flex-row items-center justify-around`}
+							style={tw`bg-white w-[40%] ${
+								Platform.OS === "android" ? "h-10" : "h-12"
+							} px-2 rounded-100 flex-row items-center justify-around`}
 						>
 							<FontAwesome5 name="map-marker-alt" size={24} color="#009959" />
 							<Text style={tw`font-600 text-gray-700`}>My Flat</Text>
@@ -120,73 +137,78 @@ const Home = ({ navigation }) => {
 
 					<Input
 						containerStyle={tw`mt-6 ${Platform.OS === "ios" ? "px-6" : "px-3"}`}
-						inputContainerStyle={tw`border-b-0 bg-white rounded-100 ${Platform.OS === "ios" && "h-[3.5rem]"} px-3 items-center`}
+						inputContainerStyle={tw`border-b-0 bg-white rounded-100 ${
+							Platform.OS === "ios" && "h-[3.5rem]"
+						} px-3 items-center`}
 						leftIcon={<Feather name="search" size={24} color="gray" />}
 						placeholder="Search category"
 					/>
 
-						<ScrollView 
-            style={tw`mb-2`}
-            horizontal showsHorizontalScrollIndicator={false}>
-							<SlideComponent />
-							<SlideComponent />
-							<SlideComponent />
-							<SlideComponent />
-						</ScrollView>
+					<ScrollView
+						style={tw`mb-2`}
+						horizontal
+						showsHorizontalScrollIndicator={false}
+					>
+						<SlideComponent />
+						<SlideComponent />
+						<SlideComponent />
+						<SlideComponent />
+					</ScrollView>
 
-            <View style={tw`mt-4 h-40 px-6`}>
-              <View style={tw`flex-row items-center justify-between`}>
-                <Text style={tw`font-700 text-lg`}>Categories 😊</Text>
-                <Text style={tw`text-[#009959] text-[0.9rem]`}>See all</Text>
-              </View>
+					<View style={tw`mt-4 h-40 px-6`}>
+						<View style={tw`flex-row items-center justify-between`}>
+							<Text style={tw`font-700 text-lg`}>Categories 😊</Text>
+							<Text style={tw`text-[#009959] text-[0.9rem]`}>See all</Text>
+						</View>
 
-              <View style={tw`flex-row items-center justify-between my-4`}>
-                  <Category 
-                    image={require("../assets/apple.png")}
-                    type="Fruits"
-                  />
-                  <Category 
-                    image={require("../assets/brocolli.png")}
-                    type="Vegetables"
-                  />
-                  <Category 
-                    image={require("../assets/cheese.png")}
-                    type="Diary"
-                  />
-                  <Category 
-                    image={require("../assets/meat.png")}
-                    type="Meat"
-                  />
-              </View>
-            </View>
+						<View style={tw`flex-row items-center justify-between my-4`}>
+							<Category image={require("../assets/apple.png")} type="Fruits" />
+							<Category
+								image={require("../assets/brocolli.png")}
+								type="Vegetables"
+							/>
+							<Category image={require("../assets/cheese.png")} type="Diary" />
+							<Category image={require("../assets/meat.png")} type="Meat" />
+						</View>
+					</View>
 
-            <View style={tw`px-6`}>
-              <View style={tw`flex-row items-center justify-between`}>
-                <Text style={tw`font-700 text-lg`}>Best Selling 🔥</Text>
-                <Text style={tw`text-[#009959] text-[0.9rem]`}>See all</Text>
-              </View>
+					<View style={tw`px-6`}>
+						<View style={tw`flex-row items-center justify-between`}>
+							<Text style={tw`font-700 text-lg`}>Best Selling 🔥</Text>
+							<Text style={tw`text-[#009959] text-[0.9rem]`}>See all</Text>
+						</View>
 
-                <View style={tw`mt-4 items-center justify-center flex-row flex-wrap`}>
-                  
-				{foodItems.map((foodItem, idx) => (
-					<Products key={idx}
-					image={foodItem.image}
-					price={foodItem.price}
-					name={foodItem.name}
-					method={() => navigation.navigate("ProductDetails", {
-						image: foodItem.image,
-						price: foodItem.price,
-						name: foodItem.name,
-					})}
-					/>
+						<View
+							style={tw`mt-4 items-center justify-center flex-row flex-wrap`}
+						>
+							{foodItems.map((foodItem, idx) => (
+								<Products
+									key={idx}
+									image={foodItem.image}
+									price={foodItem.price}
+									name={foodItem.name}
+									method1={() => {
+										navigation.navigate("ProductDetails", {
+											image: foodItem.image,
+											price: foodItem.price,
+											name: foodItem.name,
+											quantity: 0
+										});
+									}}
+									method2={() => {
+										navigation.navigate("ProductDetails", {
+											image: foodItem.image,
+											price: foodItem.price,
+											name: foodItem.name,
+											quantity: 1
+										});
+									}}
 
-				))}
-
-                </View>
-            </View>
-
+								/>
+							))}
+						</View>
+					</View>
 				</ScrollView>
-
 			</SafeAreaView>
 		</LinearGradient>
 	);

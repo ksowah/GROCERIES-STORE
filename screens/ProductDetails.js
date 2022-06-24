@@ -1,12 +1,38 @@
-import { View, Text, ImageBackground, SafeAreaView, Image, TouchableOpacity, ScrollView } from "react-native";
-import React from "react";
+import { View, Text, ImageBackground, SafeAreaView, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
 import tw from "twrnc";
 import Nav from "../components/Nav";
 import { Platform } from "react-native";
 import { Button } from "@rneui/base";
 import AddButton from "../components/AddButton";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "../firebase";
 
 const ProductDetails = ({ navigation, route }) => {
+
+    const [productQuantity, setProductQuantity] = useState(route.params.quantity)
+    const [loading, setLoading] = useState(false)
+
+    const addToCart = async () => {
+
+        if(productQuantity > 0) {
+            setLoading(true)
+            await addDoc(collection(db, "carts", auth.currentUser.phoneNumber, "items"), {
+                    timeStamp: serverTimestamp(),
+              image: route.params.image,
+              name: route.params.name,
+              price: route.params.price,
+              productQuantity,
+                });
+
+                setProductQuantity(0)
+                setLoading(false)
+                navigation.navigate("Cart")
+        }else{
+            Alert.alert("Please specify quantity")
+        }
+     
+      }
 
 
     const Card = ({image, title, text}) => {
@@ -54,11 +80,11 @@ const ProductDetails = ({ navigation, route }) => {
                     </View>
 
 					<View style={tw`flex-row items-center`}>
-						<AddButton sign={"-"} remove/>
+						<AddButton sign={"-"} remove removeFromCart={() => setProductQuantity(productQuantity - 1)}/>
 
-                        <Text style={tw`mx-3 font-bold text-[1rem]`}>14</Text>
+                        <Text style={tw`mx-3 font-bold text-[1rem]`}>{productQuantity}</Text>
 
-                       <AddButton sign={"+"}/>
+                       <AddButton sign={"+"} add addToCart={() => setProductQuantity(productQuantity + 1)}/>
 					</View>
 				</View>
 
@@ -82,6 +108,8 @@ const ProductDetails = ({ navigation, route }) => {
                     buttonStyle={tw`bg-[#23AA49] rounded-100 py-3 mx-6`}
                     containerStyle={tw`${Platform.OS === "android" && "my-6"}`}
                     titleStyle={tw`text-[0.9rem] text-gray-100`}
+                    onPress={addToCart}
+                    loading={loading}
                 />
 			</SafeAreaView>
             </ScrollView>

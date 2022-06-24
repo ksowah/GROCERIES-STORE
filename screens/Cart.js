@@ -2,18 +2,18 @@ import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { cart } from '../atoms/verificationAtoms'
-import { collection, onSnapshot, orderBy, query, deleteDoc, doc } from 'firebase/firestore'
+import { collection, onSnapshot, orderBy, query, deleteDoc, doc, updateDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 import Tabs from '../components/Tabs'
 import tw from "twrnc"
 import Nav from '../components/Nav'
 import AddButton from '../components/AddButton'
 import { foodItems } from '../foodItems'
+import { Button } from '@rneui/base'
 
 const Cart = ({navigation}) => {
     
   const [items, setItems] = useState([])
-  const [count, setCount] = useState(0)
 
   
 	useLayoutEffect(() => {
@@ -29,12 +29,32 @@ const Cart = ({navigation}) => {
 
 
 
-	const CartItem = ({data, count, id}) => {
+	const CartItem = ({data, id}) => {
 
 
-		const removeFromCart = async () => {
-			await deleteDoc(doc(db, "carts", auth.currentUser.phoneNumber, "items", id));
+		const reduceQuantity = async () => {
+
+			const productRef = doc(db, "carts", auth.currentUser.phoneNumber, "items", id)
+
+			if(data.productQuantity > 0){
+				await updateDoc(productRef, {
+					productQuantity: data.productQuantity - 1,
+				  });
+			}else{
+				await deleteDoc(doc(db, "carts", auth.currentUser.phoneNumber, "items", id));
+			}
+
 		  }
+
+		const increaseQuantity = async () => {
+			const productRef = doc(db, "carts", auth.currentUser.phoneNumber, "items", id)
+
+				await updateDoc(productRef, {
+					productQuantity: data.productQuantity + 1,
+				  });
+			
+		}
+		  
 
 		return(
 			<View style={tw`flex-row items-center justify-between px-6 border-b border-gray-200 py-4`}>
@@ -51,22 +71,25 @@ const Cart = ({navigation}) => {
 				<View style={tw`flex-row items-center`}>
 					<AddButton remove
 						sign={"-"}
-						removeFromCart={removeFromCart}
+						removeFromCart={reduceQuantity}
 					/>
 
-					<Text style={tw`mx-3`}>{count}</Text>
+					<Text style={tw`mx-3`}>{data.productQuantity}</Text>
 
-					<AddButton add sign={"+"}/>
+					<AddButton add sign={"+"} addToCart={increaseQuantity}/>
 				</View>
 			</View>
 		)
 	}
 
-	
+
   return (
-    <View style={tw`flex-1 bg-[#EBEBEB]`}>
+    <View style={tw`flex-1 ${items.length <= 0 ? "bg-white" : "bg-[#EBEBEB]"}`}>
 		<SafeAreaView style={tw`flex-1`}>
 			<Nav method={() => navigation.goBack()} title={"Cart"} />
+			{
+				items.length > 0 && (
+					<>
 			<ScrollView style={tw`flex-1 mt-2`}>
 
 				{items.map((item, idx) => (
@@ -78,6 +101,26 @@ const Cart = ({navigation}) => {
 						/>
 				))}
 			</ScrollView>
+
+				<Button 
+				title={"Checkout"}
+				buttonStyle={tw`bg-[#23AA49] rounded-100 py-[1rem] mx-6`}
+				containerStyle={tw`my-6`}
+				titleStyle={tw`text-[1rem] text-gray-100`}
+				/>
+				</>
+				)
+			}
+
+			{
+				items.length <= 0 && (
+					<View style={tw`flex-1 items-center justify-center`}>
+						<Image 
+							source={require("../assets/empty_cart.gif")}
+						/>
+					</View>
+				)
+			}
 
 		</SafeAreaView>
     </View>

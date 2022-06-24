@@ -41,7 +41,7 @@ const Tabs = ({method}) => {
         
       }}
     >
-      <Tab.Screen name="Home" component={Home}
+      <Tab.Screen name="TabsHome" component={Home}
         options={{
             tabBarActiveTintColor: "black",
             tabBarIcon: ({color, size}) => (
@@ -60,9 +60,10 @@ const Tabs = ({method}) => {
       <Tab.Screen name="Cart" component={Cart} 
       options={{
         tabBarBadge: item.length,
-        tabBarBadgeStyle: tw``,
+        tabBarBadgeStyle: tw`${item.length <= 0 && "hidden"}`,
+        
         tabBarIcon: ({color, size}) => (
-            <View style={tw`bg-[#009959 border-2 border-gray-100 rounded-100 w-13 h-13 items-center justify-center`}>
+            <View style={tw`bg-[#009959] border-2 border-gray-100 rounded-100 w-12 h-12 items-center justify-center`}>
                 <FontAwesome5 name="shopping-basket" size={size} style={tw`text-gray-100`}/>
             </View>
         )
@@ -85,37 +86,6 @@ const Tabs = ({method}) => {
         }}
       />
     </Tab.Navigator>
-    // <View style={tw` h-10 items-center flex-row justify-between ${Platform.OS === "android"? "px-4" : "px-6"}`}>
-    //     <TouchableOpacity activeOpacity={0.5} style={tw`items-center justify-center`}>
-    //         <MaterialCommunityIcons name="home-variant" size={25} color={`${tab1 ? "black" : "gray"}`} onPress={() =>{ 
-    //             setTab1(true)
-    //             toggleTabs(tab1)
-    //         }}/>
-    //     </TouchableOpacity>
-    //     <TouchableOpacity activeOpacity={0.5} style={tw`items-center justify-center`}>
-    //     <AntDesign name="appstore1" size={24} color={`${tab2 ? "black" : "gray"}`} onPress={() =>{ 
-    //             setTab2(true)
-    //             toggleTabs(tab2)
-    //         }}/>
-    //     </TouchableOpacity>
-    //     <TouchableOpacity onPress={method} activeOpacity={0.5} style={tw`relative items-center justify-center mb-6`}>
-    //         <View style={tw`bg-[#009959] border-2 border-gray-100 rounded-100 w-13 h-13 items-center justify-center`}>
-    //             <FontAwesome5 name="shopping-basket" size={24} style={tw`text-gray-100`} />
-    //         </View>
-
-    //         <View style={tw`absolute justify-center -bottom-3 shadow-2xl h-6 min-w-6 bg-red-500 border-2 border-white rounded-100`}>
-    //                 <Text style={tw`text-gray-100 font-bold text-[0.8rem] text-center`}>3</Text>
-    //         </View>
-
-    //     </TouchableOpacity>
-    //     <TouchableOpacity activeOpacity={0.5} style={tw`items-center justify-center`}>
-    //     <MaterialCommunityIcons name="calendar-text-outline" size={24} color={`${tab4 ? "black" : "gray"}`} />
-    //     </TouchableOpacity>
-    //     <TouchableOpacity activeOpacity={0.5} style={tw`items-center justify-center`}>
-    //     <FontAwesome name="user" size={24} color={`${tab5 ? "black" : "gray"}`} />
-    //     </TouchableOpacity>
-
-    // </View>
   )
 }
 
