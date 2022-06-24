@@ -54,7 +54,7 @@ const GetStarted = ({ navigation }) => {
 
 			<SafeAreaView style={tw`flex-1`}>
 				<Image
-					source={require("../assets/fruits.png")}
+					source={require("../assets/fruits.png")} 
 					style={tw`absolute bottom-0 ${Platform.OS === "android" && "h-[16rem]"}`}
 				/>
 			</SafeAreaView>
