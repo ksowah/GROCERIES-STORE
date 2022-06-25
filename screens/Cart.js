@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { cart } from '../atoms/verificationAtoms'
 import { collection, onSnapshot, orderBy, query, deleteDoc, doc, updateDoc } from 'firebase/firestore'
@@ -14,6 +14,7 @@ import { Button } from '@rneui/base'
 const Cart = ({navigation}) => {
     
   const [items, setItems] = useState([])
+  const [totalItems, setTotalItems] = useState([])
 
   
 	useLayoutEffect(() => {
@@ -30,13 +31,13 @@ const Cart = ({navigation}) => {
 
 
 	const CartItem = ({data, id}) => {
-
+	
 
 		const reduceQuantity = async () => {
 
 			const productRef = doc(db, "carts", auth.currentUser.phoneNumber, "items", id)
 
-			if(data.productQuantity > 0){
+			if(data.productQuantity > 1){
 				await updateDoc(productRef, {
 					productQuantity: data.productQuantity - 1,
 				  });
@@ -102,12 +103,21 @@ const Cart = ({navigation}) => {
 				))}
 			</ScrollView>
 
+			<View style={tw`border-t border-gray-300`}>
+
+				<View style={tw`flex-row items-center justify-between m-4`}>
+					<Text style={tw`font-500 text-[1rem]`}>Your Order</Text>
+					<Text style={tw`font-800 text-[1.2rem]`}>${totalItems}.00</Text>
+				</View>
+
 				<Button 
 				title={"Checkout"}
 				buttonStyle={tw`bg-[#23AA49] rounded-100 py-[1rem] mx-6`}
 				containerStyle={tw`my-6`}
 				titleStyle={tw`text-[1rem] text-gray-100`}
 				/>
+			</View>
+
 				</>
 				)
 			}
