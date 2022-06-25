@@ -28,6 +28,7 @@ export default function App() {
 				<Stack.Screen options={{headerShown: false}} name="Home" component={Tabs} />
 				<Stack.Screen options={{headerShown: false}} name="Category" component={Category} />
 				<Stack.Screen options={{headerShown: false}} name="ProductDetails" component={ProductDetails} />
+				<Stack.Screen options={{headerShown: false}} name="Cart" component={Cart} />
 			</Stack.Navigator>
 		</NavigationContainer>
     </RecoilRoot>
