@@ -27,14 +27,17 @@ const VerifyCode = ({navigation}) => {
             );
             await signInWithCredential(auth, credential);
 			setLoading(false)
-        navigation.dispatch(
-			CommonActions.reset({
-			  index: 1,
-			  routes: [
-				{ name: 'ProfileUpdate' },
-			  ],
-			})
-		  );
+
+			if(auth.currentUser){
+				navigation.dispatch(
+					CommonActions.reset({
+					  index: 1,
+					  routes: [
+						{ name: 'ProfileUpdate' },
+					  ],
+					})
+				  );
+			}
           } catch (err) {
 			  setLoading(false)
             alert(err.code)
