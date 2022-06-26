@@ -69,7 +69,7 @@ const SignUp = ({ navigation }) => {
 				  );
 
 			} catch (err) {
-				alert(err.message)
+				Alert.alert(err.code)
 			}
 		}
 		
