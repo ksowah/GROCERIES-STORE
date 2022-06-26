@@ -30,7 +30,7 @@ const Cart = ({navigation}) => {
 
 
 
-	const CartItem = ({data, id}) => {
+	const CartItem = ({data, id, method}) => {
 	
 
 		const reduceQuantity = async () => {
@@ -95,11 +95,12 @@ const Cart = ({navigation}) => {
 
 				{items.map((item, idx) => (
 
-						<CartItem 
-						id={item.id}
-						key={idx}
-						data={item.data()}
-						/>
+					<CartItem 
+					id={item.id}
+					key={idx}
+					data={item.data()}
+					/>
+					
 				))}
 			</ScrollView>
 
