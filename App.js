@@ -1,9 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from "@react-navigation/native";
 import GetStarted from './screens/GetStarted';
 import SignUp from './screens/SignUp';
-import Home from "./screens/Home"
 import VerifyCode from './screens/VerifyCode';
 import { RecoilRoot } from 'recoil';
 import UpdateProfile from './screens/UpdateProfile';
@@ -28,7 +26,6 @@ export default function App() {
 				<Stack.Screen options={{headerShown: false}} name="Home" component={Tabs} />
 				<Stack.Screen options={{headerShown: false}} name="Category" component={Category} />
 				<Stack.Screen options={{headerShown: false}} name="ProductDetails" component={ProductDetails} />
-				<Stack.Screen options={{headerShown: false}} name="Cart" component={Cart} />
 			</Stack.Navigator>
 		</NavigationContainer>
     </RecoilRoot>
