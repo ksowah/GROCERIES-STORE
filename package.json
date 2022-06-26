@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.7",
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
@@ -28,7 +29,8 @@
     "react-native-web": "0.17.7",
     "react-native-webview": "11.18.1",
     "recoil": "^0.7.3",
-    "twrnc": "^3.3.2"
+    "twrnc": "^3.3.2",
+    "@stripe/stripe-react-native": "0.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
