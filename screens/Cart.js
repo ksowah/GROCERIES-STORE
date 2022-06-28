@@ -10,6 +10,7 @@ import Nav from '../components/Nav'
 import AddButton from '../components/AddButton'
 import { foodItems } from '../foodItems'
 import { Button } from '@rneui/base'
+import CartItem from '../components/CartItem'
 
 const Cart = ({navigation}) => {
     
@@ -30,58 +31,8 @@ const Cart = ({navigation}) => {
 
 
 
-	const CartItem = ({data, id, method}) => {
 	
-
-		const reduceQuantity = async () => {
-
-			const productRef = doc(db, "carts", auth.currentUser.phoneNumber, "items", id)
-
-			if(data.productQuantity > 1){
-				await updateDoc(productRef, {
-					productQuantity: data.productQuantity - 1,
-				  });
-			}else{
-				await deleteDoc(doc(db, "carts", auth.currentUser.phoneNumber, "items", id));
-			}
-
-		  }
-
-		const increaseQuantity = async () => {
-			const productRef = doc(db, "carts", auth.currentUser.phoneNumber, "items", id)
-
-				await updateDoc(productRef, {
-					productQuantity: data.productQuantity + 1,
-				  });
-			
-		}
-		  
-
-		return(
-			<View style={tw`flex-row items-center justify-between px-6 border-b border-gray-200 py-4`}>
-				<Image 
-					source={data.image}
-					style={tw`h-12 w-12 mr-2`}
-				/>
-
-				<View style={tw`w-[10rem]`}>
-					<Text style={tw`font-700 text-[1.1rem] mb-2`} numberOfLines={1}  ellipsizeMode="tail">{data.name}</Text>
-					<Text style={tw`font-600 text-[#FF324B] text-[1rem]`}>1kg, {data.price}$</Text>
-				</View>
-
-				<View style={tw`flex-row items-center`}>
-					<AddButton remove
-						sign={"-"}
-						removeFromCart={reduceQuantity}
-					/>
-
-					<Text style={tw`mx-3`}>{data.productQuantity}</Text>
-
-					<AddButton add sign={"+"} addToCart={increaseQuantity}/>
-				</View>
-			</View>
-		)
-	}
+	// ----------------
 
 
   return (
@@ -102,10 +53,12 @@ const Cart = ({navigation}) => {
 					/>
 					
 				))}
+
+
 			</ScrollView>
 
 			<View style={tw`border-t border-gray-300`}>
-
+    
 				<View style={tw`flex-row items-center justify-between m-4`}>
 					<Text style={tw`font-500 text-[1rem]`}>Your Order</Text>
 					<Text style={tw`font-800 text-[1.2rem]`}>${totalItems}.00</Text>

@@ -104,7 +104,7 @@ const Home = ({ navigation }) => {
 								onPress={logOut}
 								rounded
 								source={{
-									uri: "https://ksets.netlify.app/NATIVE/avatar.png",
+									uri: auth.currentUser.photoURL || "https://ksets.netlify.app/NATIVE/avatar.png",
 								}}
 							/>
 
@@ -119,7 +119,7 @@ const Home = ({ navigation }) => {
 									ellipsizeMode="tail"
 									numberOfLines={1}
 								>
-									Kelvin Nii Odoi Sowah
+									{auth.currentUser.displayName}
 								</Text>
 							</View>
 						</View>
