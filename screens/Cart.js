@@ -9,10 +9,13 @@ import tw from "twrnc"
 import Nav from '../components/Nav'
 import AddButton from '../components/AddButton'
 import { foodItems } from '../foodItems'
-import { Button } from '@rneui/base'
 import CartItem from '../components/CartItem'
+import Payment from '../components/Payment'
+import { StripeProvider } from '@stripe/stripe-react-native'
 
 const Cart = ({navigation}) => {
+
+	const KEY = "pk_test_51JxA3xFlvRVXan9yPfqKhxNTzAx1Y2JScagYBvNPJaqQKaS4auyh977jeZRbeIyU5uWZLeIS1B0YBiHzoswugXBQ006lfOIVpX"
     
   const [items, setItems] = useState([])
   const [totalItems, setTotalItems] = useState([])
@@ -64,13 +67,11 @@ const Cart = ({navigation}) => {
 					<Text style={tw`font-800 text-[1.2rem]`}>${totalItems}.00</Text>
 				</View>
 
-				<Button 
-				title={"Checkout"}
-				buttonStyle={tw`bg-[#23AA49] rounded-100 py-[1rem] mx-6`}
-				containerStyle={tw`my-6`}
-				titleStyle={tw`text-[1rem] text-gray-100`}
-				/>
+			<StripeProvider publishableKey={KEY}>
+				<Payment />
+			</StripeProvider>
 			</View>
+
 
 				</>
 				)

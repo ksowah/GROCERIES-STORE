@@ -1,10 +1,8 @@
 import { View, Text, Platform, TouchableOpacity } from 'react-native'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { Tab, TabView } from "@rneui/themed";
 import { MaterialCommunityIcons, AntDesign, FontAwesome5, FontAwesome } from '@expo/vector-icons'; 
 import tw from "twrnc"
-import { useRecoilValue } from 'recoil';
-import { cart } from '../atoms/verificationAtoms';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Cart from '../screens/Cart';
@@ -14,12 +12,12 @@ import Applications from '../screens/Applications';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 
-const Tabs = ({method}) => {
+const Tabs = () => {
 
     const Tab = createBottomTabNavigator();
 
     const [item, setItem] = useState([])
-
+  
   
 	useLayoutEffect(() => {
 		const unsubscribe = onSnapshot(
