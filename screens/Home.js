@@ -36,7 +36,7 @@ const Home = ({ navigation }) => {
 	};
 
 
-	const SlideComponent = () => {
+	const SlideComponent = ({gradientOne, gradientTwo}) => {
 		return (
 			<View style={tw`w-[20rem] mx-2 h-[10rem] rounded-2xl overflow-hidden`}>
 				<ImageBackground
@@ -45,8 +45,9 @@ const Home = ({ navigation }) => {
 					resizeMode="cover"
 				>
 					<LinearGradient
-						colors={["#009959", "#6EBD6A"]}
-						style={tw`w-[50%] absolute right-0 h-[100%] bg-[#009959] items-center justify-center`}
+					// "#009959", "#6EBD6A"
+						colors={[gradientOne, gradientTwo]}
+						style={tw`w-[50%] absolute right-0 h-[100%] items-center justify-center`}
 						start={{ x: 0, y: 0 }}
 						end={{ x: 0, y: 1 }}
 					>
@@ -149,7 +150,7 @@ const Home = ({ navigation }) => {
 						horizontal
 						showsHorizontalScrollIndicator={false}
 					>
-						<SlideComponent />
+						<SlideComponent gradientOne="#009959" gradientTwo="#6EBD6A"/>
 						<SlideComponent />
 						<SlideComponent />
 						<SlideComponent />
