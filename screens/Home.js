@@ -151,9 +151,9 @@ const Home = ({ navigation }) => {
 						showsHorizontalScrollIndicator={false}
 					>
 						<SlideComponent gradientOne="#009959" gradientTwo="#6EBD6A"/>
-						<SlideComponent />
-						<SlideComponent />
-						<SlideComponent />
+						<SlideComponent gradientOne={"#D7816A"} gradientTwo="#BD4F6C"/>
+						<SlideComponent gradientOne={"#EC9F05"} gradientTwo="#FF4E00" />
+						<SlideComponent gradientOne={"#233329"} gradientTwo={"#63D471"}/>
 					</ScrollView>
 
 					<View style={tw`mt-4 h-40 px-6`}>
