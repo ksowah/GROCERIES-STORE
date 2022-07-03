@@ -58,7 +58,7 @@ const Home = ({ navigation }) => {
 						<Button
 							title={"Grab Offer"}
 							buttonStyle={tw`rounded-100 bg-gray-50 w-[8rem] h-[2.3rem] mt-2`}
-							titleStyle={tw`text-[#009959] text-[0.9rem] font-600`}
+							titleStyle={tw`text-[${gradientTwo}] text-[0.9rem] font-600`}
 							icon={
 								<Entypo name="chevron-small-right" size={24} color="#009959" />
 							}
