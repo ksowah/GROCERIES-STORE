@@ -30,7 +30,8 @@
     "react-native-webview": "11.18.1",
     "recoil": "^0.7.3",
     "twrnc": "^3.3.2",
-    "@stripe/stripe-react-native": "0.6.1"
+    "@stripe/stripe-react-native": "0.6.1",
+    "expo-updates": "~0.13.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
