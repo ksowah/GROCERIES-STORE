@@ -7,12 +7,11 @@ import { RecoilRoot } from 'recoil';
 import UpdateProfile from './screens/UpdateProfile';
 import Category from './screens/Category';
 import ProductDetails from './screens/ProductDetails';
-import Cart from './screens/Cart';
 import Tabs from './components/Tabs';
 
 
 const Stack = createNativeStackNavigator();
-
+console.disableYellowBox = true;
 
 export default function App() {
   return (
