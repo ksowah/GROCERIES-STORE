@@ -1,6 +1,5 @@
-import { View, Text, Platform, TouchableOpacity } from 'react-native'
+import { View } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
-import { Tab, TabView } from "@rneui/themed";
 import { MaterialCommunityIcons, AntDesign, FontAwesome5, FontAwesome } from '@expo/vector-icons'; 
 import tw from "twrnc"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';

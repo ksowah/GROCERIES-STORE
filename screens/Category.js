@@ -21,7 +21,7 @@ const Category = ({ navigation, route }) => {
 										image={foodItem.image}
 										price={foodItem.price}
 										name={foodItem.name}
-										method={() => navigation.navigate("ProductDetails", {
+										method1={() => navigation.navigate("ProductDetails", {
 											image: foodItem.image,
 											price: foodItem.price,
 											name: foodItem.name,
@@ -31,7 +31,6 @@ const Category = ({ navigation, route }) => {
 						)}
 					</View>
 				</ScrollView>
-				<Tabs/>
 			</SafeAreaView>
 		</View>
 	);

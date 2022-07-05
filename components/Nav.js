@@ -3,7 +3,7 @@ import React from "react";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import tw from "twrnc"
 
-const Nav = ({ method, title, hideSearch }) => {
+const Nav = ({ method, title }) => {
 	return (
 		<View 
             style={tw`px-6 flex-row items-center justify-between`}
@@ -16,7 +16,12 @@ const Nav = ({ method, title, hideSearch }) => {
 				<Feather name="chevron-left" size={25} style={tw`text-gray-500`} />
 			</TouchableOpacity>
 
-            <Text style={tw`text-[1.2rem] font-700`}>{title} 🌽</Text>
+            <Text style={tw`text-[1.2rem] font-700`}>{title} 
+			{title === "Fruits" && "🍎"} 
+			{title === "Vegetables" && "🥕"}
+			{title === "Diary" && "🧀"}
+			{title === "Meat" && "🥩"}
+			</Text>
 
             <TouchableOpacity
             activeOpacity={0.5}

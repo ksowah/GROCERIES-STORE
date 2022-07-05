@@ -3,23 +3,21 @@ import { initializeApp, getApp, getApps } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getStorage } from 'firebase/storage'
 import { getFirestore } from 'firebase/firestore'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import {getReactNativePersistence} from 'firebase/auth/react-native';
+
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDLmMHWI3IUH0wRcysljkPp5MawBKHLkJE",
-  authDomain: "groceries-store-897fd.firebaseapp.com",
-  projectId: "groceries-store-897fd",
-  storageBucket: "groceries-store-897fd.appspot.com",
-  messagingSenderId: "2828303914",
-  appId: "1:2828303914:web:343c41ff7ccd6a80320d53",
-  storageBucket: "gs://groceries-store-897fd.appspot.com"
+  apiKey: "AIzaSyDl2hu5WlataB51Zuq3yyfhBWtQ6pcBe8s",
+  authDomain: "groceries-store-beta.firebaseapp.com",
+  projectId: "groceries-store-beta",
+  storageBucket: "groceries-store-beta.appspot.com",
+  messagingSenderId: "854689133531",
+  appId: "1:854689133531:web:e98b6ce7af22b2c71badfe"
 };
+
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 export const auth = getAuth()
 export const storage = getStorage()
 export const db = getFirestore() 
-
 
 export default app
