@@ -43,6 +43,16 @@ const SignUp = ({ navigation }) => {
 		);
 	}
 
+	const changeErrorPrefix = (text) => {
+		const prefix = "auth/"
+		if(text.startsWith(prefix)){
+			text = text.substring(prefix.length)
+			
+		}
+
+		return text
+	}
+
 	const SendCode = async () => {
 		setLoading(true)
 
@@ -69,7 +79,10 @@ const SignUp = ({ navigation }) => {
 				  );
 
 			} catch (err) {
-				Alert.alert(err.code)
+				let error = changeErrorPrefix(String(err.code))
+				if(error !== "undefined"){
+					Alert.alert(error)
+				}
 			}
 		}
 		
