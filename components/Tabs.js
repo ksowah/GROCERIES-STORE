@@ -10,17 +10,29 @@ import Callendar from '../screens/Callendar';
 import Applications from '../screens/Applications';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { auth, db } from '../firebase';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from 'react';
 
 const Tabs = () => {
 
     const Tab = createBottomTabNavigator();
 
-    const [item, setItem] = useState([])
+    const [item, setItem] = useState([])  
+
+    const getPhoneNumber = async () => {
+      try {
+        const number = await AsyncStorage.getItem('user')
+        return number
+      } catch(e) {
+        console.log(e)
+      }
+    }
+
+
   
-  
-	useLayoutEffect(() => {
+	useLayoutEffect(async () => {
 		const unsubscribe = onSnapshot(
-			query(collection(db, "carts", auth.currentUser.phoneNumber, "items"), orderBy("timeStamp", "asc")),
+			query(collection(db, "carts", getPhoneNumber, "items"), orderBy("timeStamp", "asc")),
 			(snapshot) => {
 				setItem(snapshot.docs)
 			}
