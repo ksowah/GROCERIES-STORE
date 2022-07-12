@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { auth, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UpdateProfile = ({navigation}) => {
 
@@ -29,6 +30,15 @@ const UpdateProfile = ({navigation}) => {
 			setSelectedFile(result.uri)
 		}
 	}
+
+	const storeUserData = async (value) => {
+		try {
+		  await AsyncStorage.setItem('userData', value)
+		  console.log("Data stored")
+		} catch (e) {
+		  console.log(e)
+		}
+	  }
 
 
 	const storeImage = async () => {
@@ -52,6 +62,8 @@ const UpdateProfile = ({navigation}) => {
 			   downloadURL ||
 				   "https://ksets.netlify.app/NATIVE/avatar.png",
 				})
+
+				storeUserData(JSON.stringify({img: downloadURL || "https://ksets.netlify.app/NATIVE/avatar.png", name}))
 
 			navigation.replace("Home")
            })

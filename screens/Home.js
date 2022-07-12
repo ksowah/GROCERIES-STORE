@@ -8,7 +8,7 @@ import {
 	Image,
 	Platform,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { auth } from "../firebase";
 import tw from "twrnc";
 import { LinearGradient } from "expo-linear-gradient";
@@ -17,23 +17,41 @@ import { FontAwesome5, Entypo, Feather } from "@expo/vector-icons";
 import { Button } from "@rneui/base";
 import { ScrollView } from "react-native";
 import Products from "../components/Products";
-import Tabs from "../components/Tabs";
 import { signOut } from "firebase/auth";
 import { foodItems } from "../foodItems";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const Home = ({ navigation }) => {
 
+	const [userData, setUserData] = useState({})
+ 
+
 	const logOut = () => {
-		signOut(auth)
-			.then(() => {
-				navigation.replace("Start");
-				// Sign-out successful.
-			})
-			.catch((error) => {
-				alert(error.code);
-				// An error happened.
-			});
+		try {
+			await AsyncStorage.clear()
+			console.log("session cleared");
+			navigation.replace("Start");
+		  } catch(e) {
+			// clear error
+			console.log(e);
+		  }
 	};
+
+	const getUserData = async () => {
+		try {
+		  const data = await AsyncStorage.getItem('userData')
+		  console.log(data)
+		  setUserData(JSON.parse(data))
+		} catch(e) {
+		  console.log(e)
+		}
+	  }
+
+	  useEffect(() => {
+		getUserData()
+	  }, [])
+	  
 
 
 	const SlideComponent = ({gradientOne, gradientTwo}) => {
@@ -105,7 +123,7 @@ const Home = ({ navigation }) => {
 								onPress={logOut}
 								rounded
 								source={{
-									uri: auth.currentUser.photoURL || "https://ksets.netlify.app/NATIVE/avatar.png",
+									uri: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png"
 								}}
 							/>
 
@@ -120,7 +138,7 @@ const Home = ({ navigation }) => {
 									ellipsizeMode="tail"
 									numberOfLines={1}
 								>
-									{auth.currentUser.displayName}
+									{"kelvin"}
 								</Text>
 							</View>
 						</View>
