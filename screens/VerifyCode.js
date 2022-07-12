@@ -9,6 +9,8 @@ import { auth } from "../firebase";
 import { useRecoilValue } from "recoil";
 import { globalPhoneNumber, verificationIDAtom } from "../atoms/verificationAtoms";
 import { CommonActions } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const VerifyCode = ({navigation}) => {
 
@@ -17,6 +19,15 @@ const VerifyCode = ({navigation}) => {
     const phoneNumber = useRecoilValue(globalPhoneNumber)
     const [verificationCode, setVerificationCode] = useState(null);
 	const [loading, setLoading] = useState(false);
+
+
+	const storeUser = async (value) => {
+		try {
+		  await AsyncStorage.setItem('user', value)
+		} catch (e) {
+		  console.log(e)
+		}
+	  }
 
     const verifyUser = async () => {
 		setLoading(true)
@@ -29,6 +40,7 @@ const VerifyCode = ({navigation}) => {
 			setLoading(false)
 
 			if(auth.currentUser){
+				storeUser(auth.currentUser.phoneNumber.toString())
 				navigation.dispatch(
 					CommonActions.reset({
 					  index: 1,
@@ -37,6 +49,7 @@ const VerifyCode = ({navigation}) => {
 					  ],
 					})
 				  );
+
 			}
           } catch (err) {
 			  setLoading(false)
